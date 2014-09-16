@@ -17,7 +17,7 @@
 {% spaceless %}
     <div class="form-group {{ errors|length > 0 ? 'has-error' : '' }}">
         {{ form_label(form) }}
-        <div class="col-sm-10">
+        <div class="col-sm-9">
             {{ form_errors(form) }}
             {{ form_widget(form) }}
         </div>
@@ -28,7 +28,7 @@
 {% block checkbox_row %}
 {% spaceless %}
     <div class="form-group {{ errors|length > 0 ? 'has-error' : '' }}">
-        <div class="col-sm-offset-2 col-sm-10">
+        <div class="col-sm-offset-3 col-sm-9">
             <div class="checkbox">
                 <label for="{{ id }}">
                     {{ form_widget(form) }}
@@ -44,7 +44,7 @@
 {% block form_label %}
 {% spaceless %}
     {% if label is not sameas(false) %}
-        {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' col-sm-2 control-label')|trim}) %}
+        {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' col-sm-3 control-label')|trim}) %}
         {% if not compound %}
             {% set label_attr = label_attr|merge({'for': id}) %}
         {% endif %}
@@ -71,7 +71,7 @@
     {% if label is empty %}
         {% set label = name|humanize %}
     {% endif %}
-    <button class="btn btn-default pull-left" type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
+    <button class="btn btn-default pull-left" style="margin-right: 15px;" type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
 {% endspaceless %}
 {% endblock button_widget %}
 

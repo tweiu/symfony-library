@@ -9,5 +9,21 @@
 {% endblock %}
 
 {% block body %}
-{{ form(form) }}
+<div class="row">
+    <div class="col-md-10">
+    {{ form(form) }}
+    </div>
+    <div class="col-md-2">
+        {% if id %}
+        <img src="{{ book.cover }}" width="125" height="125" class="img-thumbnail" alt="Нет обложки" />
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $("#book_delete").click(function(){return confirm("Вы действительно хотите удалить эту книгу?");});
+    </script>
 {% endblock %}

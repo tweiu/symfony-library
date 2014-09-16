@@ -12,13 +12,20 @@ class BookType extends AbstractType
         $builder
             ->add('title', 'text', array('label' => 'Название'))
             ->add('author', 'text', array('label' => 'Автор'))
-            ->add('cover_input', 'file', array('label' => 'Обложка (png, jpg)', 'required' => false))
-            ->add('file_input', 'file', array('label' => 'Файл с книгой (до 5мб)', 'required' => false))
+            ->add('cover_input', 'file', array('label' => 'Обложка (png, jpg)', 'required' => false));
+        if($options["data"]->getId() && $options["data"]->getCover())
+            $builder->add('cover_del', 'checkbox', array('label' => 'Удалить обложку', 'required' => false));
+        $builder
+            ->add('file_input', 'file', array('label' => 'Файл с книгой (до 5мб)', 'required' => false));
+        if($options["data"]->getId() && $options["data"]->getFile())
+            $builder->add('file_del', 'checkbox', array('label' => 'Удалить файл с книгой', 'required' => false));
+        $builder
             ->add('read_at', 'date', array('label' => 'Дата прочтения', 'widget' => 'single_text'))
             ->add('allow_download', 'checkbox', array('label' => 'Разрешить скачивание', 'required' => false))
             ->add('save', 'submit', array('label' => 'Сохранить'))
-            ->add('apply', 'submit', array('label' => 'Применить'))
-            ->add('delete', 'submit', array('label' => 'Удалить книгу'));
+            ->add('apply', 'submit', array('label' => 'Применить'));
+        if($options["data"]->getId())
+            $builder->add('delete', 'submit', array('label' => 'Удалить книгу'));
     }
 
     public function getName()

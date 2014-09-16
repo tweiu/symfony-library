@@ -141,8 +141,6 @@ class Book {
     {
         if($this->cover)
             return "/" . $this->getUploadDir() . "/" . $this->getPathToFile($this->cover);
-        else
-            return "http://lorempixel.com/125/125/";
     }
 
     /**
@@ -241,6 +239,54 @@ class Book {
             $this->cover = null;
         } else {
             $this->cover = 'initial';
+        }
+        return $this;
+    }
+
+    /**
+     * Gets CoverDel.
+     *
+     * @return string 
+     */
+    public function getCoverDel()
+    {
+        return null;
+    }
+
+    /**
+     * Sets CoverDel.
+     *
+     * @param string $coverDel
+     */
+    public function setCoverDel($coverDel)
+    {
+        if($coverDel == "Y") {
+            unlink($this->getUploadRootDir().'/'.$this->getPathToFile($this->cover));
+            $this->cover = null;
+        }
+        return $this;
+    }
+
+    /**
+     * Gets FileDel.
+     *
+     * @return string 
+     */
+    public function getFileDel()
+    {
+        return null;
+    }
+
+    /**
+     * Sets FileDel.
+     *
+     * @param string $fileDel
+     */
+    public function setFileDel($fileDel)
+    {
+        if($fileDel == "Y") {
+            unlink($this->getUploadRootDir().'/'.$this->getPathToFile($this->file));
+            $this->file = null;
         }
         return $this;
     }
