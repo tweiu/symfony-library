@@ -1,0 +1,27 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Книги{% endblock %}
+{% block h1 %}Мои книги{% endblock %}
+
+{% block body %}
+<table class="table">
+    {% for book in books %}
+        <tr>
+            <td>
+                {{ book.cover|show_image(125, 125, book.title, "img-thumbnail") }}
+            </td>
+            <td>
+                <h2>{{ book.title }}<br/><small>{{ book.author }}</small></h2>
+            </td>
+            <td class="text-right">
+                {% if book.file and book.isAllowDownload %}
+                <a href="{{ book.file }}" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk"></span> Скачать</a>
+                {% endif %}
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <a href="{{ path('intaro_library_edit', {"id": book.id}) }}" class="btn btn-default"><span class="glyphicon glyphicon glyphicon-pencil"></span> Редактировать</a>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

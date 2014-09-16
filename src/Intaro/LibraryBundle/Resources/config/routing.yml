@@ -1,0 +1,16 @@
+intaro_library_homepage:
+    pattern:  /
+    defaults: { _controller: IntaroLibraryBundle:Default:index }
+
+intaro_library_add:
+    pattern:  /add
+    defaults: { _controller: IntaroLibraryBundle:Default:edit }
+intaro_library_edit:
+    pattern:  /edit/{id}
+    defaults: { _controller: IntaroLibraryBundle:Default:edit }
+
+intaro_library_about:
+    pattern: /about
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template:    'IntaroLibraryBundle:Static:about.html.twig'

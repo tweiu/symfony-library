@@ -1,0 +1,16 @@
+parameters:
+#    intaro_library.example.class: Intaro\LibraryBundle\Example
+
+services:
+#    intaro_library.example:
+#        class: %intaro_library.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+    my.subscriber:
+        class: Intaro\LibraryBundle\EventListener\UpdateBooksSubscriber
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+    
+    intaro.twig.image_tools_extensions:
+        class: Intaro\LibraryBundle\Twig\ImageToolsExtension
+        tags:
+            - { name: twig.extension }

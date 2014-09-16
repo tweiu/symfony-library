@@ -1,0 +1,13 @@
+{% extends "::base.html.twig" %}
+{% form_theme form 'IntaroLibraryBundle:Form:form.html.twig' %}
+
+{% block title %}
+    {% if id %}Редактирование книги{% else %}Добавление книги{% endif %}
+{% endblock %}
+{% block h1 %}
+    {% if id %}Редактирование книги "{{ book.title }}"{% else %}Новая книга{% endif %}
+{% endblock %}
+
+{% block body %}
+{{ form(form) }}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Ошибка{% endblock %}
+{% block head1 %}Упс!{% endblock %}
+
+{% block body %}
+<p>
+    Ошибка {{ status_code }} {{ status_text }}
+</p>
+{% endblock %}
