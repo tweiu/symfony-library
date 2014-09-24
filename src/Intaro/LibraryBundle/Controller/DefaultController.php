@@ -18,34 +18,43 @@ class DefaultController extends Controller
             ->getQuery();
         $query->useResultCache(true, 86400, "books");
         $books = $query->getResult();
+
         return $this->render('IntaroLibraryBundle:Default:index.html.twig', array("books" => $books));
     }
     public function editAction($id = null)
     {
         $em = $this->getDoctrine()->getManager();
-        if($id)
+        if ($id) {
             $book = $em->getRepository('IntaroLibraryBundle:Book')->find($id);
-        else
+        } else {
             $book = new Book();
-        
+        }
+
         $form = $this->createForm(new BookType(), $book);
         $request = $this->container->get('request');
         $form->handleRequest($request);
-        
-        if($id && $form->get('delete')->isClicked()) {
+
+        if ($id && $form->get('delete')->isClicked()) {
             $em->remove($book);
             $em->flush();
+
             return $this->redirect($this->generateUrl('intaro_library_homepage'));
         }
-        
+
         if ($form->isValid()) {
             $em->persist($book);
             $em->flush();
-            if($form->get('apply')->isClicked())
+
+            if ($form->get('apply')->isClicked()) {
                 return $this->redirect($this->generateUrl('intaro_library_edit', array("id" => $book->getId())));
-            else
+            } else {
                 return $this->redirect($this->generateUrl('intaro_library_homepage'));
+            }
         }
-        return $this->render('IntaroLibraryBundle:Default:bookedit.html.twig', array("id" => $id, "form" => $form->createView(), "book" => $book));
+
+        return $this->render(
+            'IntaroLibraryBundle:Default:bookedit.html.twig',
+            array("id" => $id, "form" => $form->createView(), "book" => $book)
+        );
     }
 }
