@@ -12,9 +12,11 @@ class ImageToolsExtension extends \Twig_Extension
 
     public function showImage($src, $width = 125, $height = 125, $alt = "", $class = "")
     {
-        if(strlen($class))
+        if (strlen($class)) {
             $class = "class=\"" . $class . "\" ";
+        }
         $alt = "alt=\"" . htmlspecialchars($alt) . "\" ";
+
         return "<img src=" . $src. " width=" . $width . " height=" . $height . " " . $class . $alt. " />";
     }
 

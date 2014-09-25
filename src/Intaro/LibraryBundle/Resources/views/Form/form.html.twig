@@ -32,7 +32,7 @@
             <div class="checkbox">
                 <label for="{{ id }}">
                     {{ form_widget(form) }}
-                    {{ label }}
+                    {{ label|trans({}, translation_domain) }}
                 </label>
                 {{ form_errors(form) }}
             </div>

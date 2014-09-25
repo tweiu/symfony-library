@@ -4,7 +4,6 @@ namespace Intaro\LibraryBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Intaro\LibraryBundle\Entity\Book;
 
 class UpdateBooksSubscriber implements EventSubscriber
 {
@@ -16,7 +15,7 @@ class UpdateBooksSubscriber implements EventSubscriber
             'postPersist'
         );
     }
-    
+
     public function postRemove(LifecycleEventArgs $args)
     {
         $this->clearBooksCache($args);
@@ -26,12 +25,12 @@ class UpdateBooksSubscriber implements EventSubscriber
     {
         $this->clearBooksCache($args);
     }
-    
+
     public function postPersist(LifecycleEventArgs $args)
     {
         $this->clearBooksCache($args);
     }
-    
+
     public function clearBooksCache(LifecycleEventArgs $args)
     {
         $em = $args->getEntityManager();

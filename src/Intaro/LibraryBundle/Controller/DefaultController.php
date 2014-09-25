@@ -11,18 +11,16 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        $repository = $this->getDoctrine()
-            ->getRepository('IntaroLibraryBundle:Book');
-        $query = $repository->createQueryBuilder('b')
-            ->orderBy('b.read_at', 'DESC')
-            ->getQuery();
-        $query->useResultCache(true, 86400, "books");
-        $books = $query->getResult();
+        $books = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('IntaroLibraryBundle:Book')
+            ->findAllOrderedByDateOfReading();
 
         return $this->render('IntaroLibraryBundle:Default:index.html.twig', array("books" => $books));
     }
-    public function editAction($id = null)
+    public function editAction(Request $request)
     {
+        $id = $request->get('id');
         $em = $this->getDoctrine()->getManager();
         if ($id) {
             $book = $em->getRepository('IntaroLibraryBundle:Book')->find($id);
@@ -31,7 +29,6 @@ class DefaultController extends Controller
         }
 
         $form = $this->createForm(new BookType(), $book);
-        $request = $this->container->get('request');
         $form->handleRequest($request);
 
         if ($id && $form->get('delete')->isClicked()) {

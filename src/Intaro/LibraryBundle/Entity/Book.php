@@ -6,12 +6,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Intaro\LibraryBundle\Entity\BookRepository")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="intaro_book")
  */
 
-class Book {
+class Book
+{
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -32,41 +33,41 @@ class Book {
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $cover;
-    
-    protected $old_cover;
+
+    protected $oldCover;
     /**
      * @Assert\Image(
      *     mimeTypes = {"image/jpeg", "image/png"},
      *     mimeTypesMessage = "Поддерживаются только изображения формата jpeg или png"
      *     )
      */
-    protected $cover_input;
+    protected $coverInput;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $file;
-    
-    protected $old_file;
+
+    protected $oldFile;
     /**
      * @Assert\File(
      *     maxSize = "5M",
      *     maxSizeMessage = "Поддерживаются файлы до {{ limit }} {{ suffix }}"
      *     )
      */
-    protected $file_input;
+    protected $fileInput;
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(name="read_at", type="datetime", nullable=true)
      */
-    protected $read_at;
+    protected $readAt;
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(name="allow_download", type="boolean", nullable=true)
      */
-    protected $allow_download;
+    protected $allowDownload;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -76,7 +77,7 @@ class Book {
     /**
      * Set title
      *
-     * @param string $title
+     * @param  string $title
      * @return Book
      */
     public function setTitle($title)
@@ -89,7 +90,7 @@ class Book {
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -99,7 +100,7 @@ class Book {
     /**
      * Set author
      *
-     * @param string $author
+     * @param  string $author
      * @return Book
      */
     public function setAuthor($author)
@@ -112,7 +113,7 @@ class Book {
     /**
      * Get author
      *
-     * @return string 
+     * @return string
      */
     public function getAuthor()
     {
@@ -122,7 +123,7 @@ class Book {
     /**
      * Set cover
      *
-     * @param string $cover
+     * @param  string $cover
      * @return Book
      */
     public function setCover($cover)
@@ -135,18 +136,19 @@ class Book {
     /**
      * Get cover
      *
-     * @return string 
+     * @return string
      */
     public function getCover()
     {
-        if($this->cover)
+        if ($this->cover) {
             return "/" . $this->getUploadDir() . "/" . $this->getPathToFile($this->cover);
+        }
     }
 
     /**
      * Set file
      *
-     * @param string $file
+     * @param  string $file
      * @return Book
      */
     public function setFile($file)
@@ -159,72 +161,73 @@ class Book {
     /**
      * Get file
      *
-     * @return string 
+     * @return string
      */
     public function getFile()
     {
-        if($this->file)
+        if ($this->file) {
             return "/" . $this->getUploadDir() . "/" . $this->getPathToFile($this->file);
-        else
+        } else {
             return false;
+        }
     }
 
     /**
-     * Set read_at
+     * Set readAt
      *
-     * @param \DateTime $readAt
+     * @param  \DateTime $readAt
      * @return Book
      */
     public function setReadAt($readAt)
     {
-        $this->read_at = $readAt;
+        $this->readAt = $readAt;
 
         return $this;
     }
 
     /**
-     * Get read_at
+     * Get readAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getReadAt()
     {
-        return $this->read_at;
+        return $this->readAt;
     }
 
     /**
-     * Set allow_download
+     * Set allowDownload
      *
-     * @param boolean $allowDownload
+     * @param  boolean $allowDownload
      * @return Book
      */
     public function setAllowDownload($allowDownload)
     {
-        $this->allow_download = $allowDownload;
+        $this->allowDownload = $allowDownload;
 
         return $this;
     }
 
     /**
-     * Get allow_download
+     * Get allowDownload
      *
-     * @return boolean 
+     * @return boolean
      */
     public function isAllowDownload()
     {
-        return $this->allow_download;
+        return $this->allowDownload;
     }
 
     /**
-     * Get allow_download
+     * Get allowDownload
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getAllowDownload()
     {
-        return $this->allow_download;
+        return $this->allowDownload;
     }
-    
+
     /**
      * Sets CoverInput.
      *
@@ -232,21 +235,22 @@ class Book {
      */
     public function setCoverInput(UploadedFile $file = null)
     {
-        $this->cover_input = $file;
+        $this->coverInput = $file;
         if (isset($this->cover)) {
             // store the old name to delete after the update
-            $this->old_cover = $this->cover;
+            $this->oldCover = $this->cover;
             $this->cover = null;
         } else {
             $this->cover = 'initial';
         }
+
         return $this;
     }
 
     /**
      * Gets CoverDel.
      *
-     * @return string 
+     * @return string
      */
     public function getCoverDel()
     {
@@ -260,17 +264,18 @@ class Book {
      */
     public function setCoverDel($coverDel)
     {
-        if($coverDel == "Y") {
+        if ($coverDel == "Y") {
             unlink($this->getUploadRootDir().'/'.$this->getPathToFile($this->cover));
             $this->cover = null;
         }
+
         return $this;
     }
 
     /**
      * Gets FileDel.
      *
-     * @return string 
+     * @return string
      */
     public function getFileDel()
     {
@@ -284,10 +289,11 @@ class Book {
      */
     public function setFileDel($fileDel)
     {
-        if($fileDel == "Y") {
+        if ($fileDel == "Y") {
             unlink($this->getUploadRootDir().'/'.$this->getPathToFile($this->file));
             $this->file = null;
         }
+
         return $this;
     }
 
@@ -298,9 +304,9 @@ class Book {
      */
     public function getCoverInput()
     {
-        return $this->cover_input;
+        return $this->coverInput;
     }
-    
+
     /**
      * Sets FileInput.
      *
@@ -308,14 +314,15 @@ class Book {
      */
     public function setFileInput(UploadedFile $file = null)
     {
-        $this->file_input = $file;
+        $this->fileInput = $file;
         if (isset($this->file)) {
             // store the old name to delete after the update
-            $this->old_file = $this->file;
+            $this->oldFile = $this->file;
             $this->file = null;
         } else {
             $this->file = 'initial';
         }
+
         return $this;
     }
 
@@ -326,9 +333,9 @@ class Book {
      */
     public function getFileInput()
     {
-        return $this->file_input;
+        return $this->fileInput;
     }
-    
+
     /**
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
@@ -346,7 +353,7 @@ class Book {
             $this->cover = $filename.'.'.$this->getCoverInput()->getClientOriginalExtension();
         }
     }
-    
+
     /**
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
@@ -361,12 +368,12 @@ class Book {
                 $this->getUploadRootDir()."/".$this->getFilenamePrefix($this->cover),
                 $this->cover
             );
-            if($this->old_cover) {
-                unlink($this->getUploadRootDir().'/'.$this->getPathToFile($this->old_cover));
-                $this->old_cover = null;
+            if ($this->oldCover) {
+                unlink($this->getUploadRootDir().'/'.$this->getPathToFile($this->oldCover));
+                $this->oldCover = null;
             }
             // clean up the file property as you won't need it anymore
-            $this->cover_input= null;
+            $this->coverInput = null;
         }
         // the file property can be empty if the field is not required
         if (null !== $this->getFileInput()) {
@@ -376,12 +383,12 @@ class Book {
                 $this->getUploadRootDir()."/".$this->getFilenamePrefix($this->file),
                 $this->file
             );
-            if($this->old_file) {
-                unlink($this->getUploadRootDir().'/'.$this->getPathToFile($this->old_file));
-                $this->old_file = null;
+            if ($this->oldFile) {
+                unlink($this->getUploadRootDir().'/'.$this->getPathToFile($this->oldFile));
+                $this->oldFile = null;
             }
             // clean up the file property as you won't need it anymore
-            $this->file_input= null;
+            $this->fileInput = null;
         }
     }
 
@@ -390,12 +397,14 @@ class Book {
      */
     public function removeUpload()
     {
-        if (isset($this->file))
+        if (isset($this->file)) {
             unlink($this->getUploadRootDir().'/'.$this->getPathToFile($this->file));
-        if (isset($this->cover))
+        }
+        if (isset($this->cover)) {
             unlink($this->getUploadRootDir().'/'.$this->getPathToFile($this->cover));
+        }
     }
-    
+
     protected function getUploadRootDir()
     {
         // the absolute directory path where uploaded
